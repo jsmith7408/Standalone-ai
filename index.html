@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SDT-9 Toolkit Demo</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 16px; }
+      textarea { width: 100%; height: 140px; }
+      pre { background: #f6f6f6; padding: 12px; overflow: auto; }
+      .row { display: flex; gap: 12px; flex-wrap: wrap; }
+      .col { flex: 1 1 320px; }
+      button { padding: 10px 12px; }
+      .hint { color: #555; font-size: 13px; }
+      .kpi { display:flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; }
+      .kpi div { background:#f6f6f6; padding:8px 10px; border-radius:8px; }
+    </style>
+  </head>
+  <body>
+    <h1>SDT-9 Toolkit Demo</h1>
+    <p class="hint">
+      Paste lines of text (messages / steps / events). We hash each line to a stable positive integer ID, then compute SDT-9 telemetry + governor decisions.
+    </p>
+
+    <div class="row">
+      <div class="col">
+        <h3>Input (one event per line)</h3>
+        <textarea id="input"></textarea>
+        <div style="margin-top:10px;">
+          <button id="run">Analyze</button>
+          <button id="sample">Load sample</button>
+        </div>
+      </div>
+      <div class="col">
+        <h3>Output</h3>
+        <div class="kpi" id="kpis"></div>
+        <pre id="out"></pre>
+      </div>
+    </div>
+
+    <script type="module" src="/src/index.ts"></script>
+  </body>
+</html>

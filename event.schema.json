@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SDT9Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ts",
+    "type",
+    "text"
+  ],
+  "properties": {
+    "ts": {
+      "type": "string",
+      "description": "ISO timestamp"
+    },
+    "type": {
+      "type": "string",
+      "description": "event type e.g. user, assistant, tool_call, tool_result, step"
+    },
+    "text": {
+      "type": "string",
+      "description": "human-readable payload; will be hashed to stable ID if token IDs not available"
+    },
+    "token_ids": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "description": "Optional: actual model token IDs; if present, telemetry can operate directly on token IDs"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

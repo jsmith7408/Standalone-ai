@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sdt9-ai"
+version = "0.1.0"
+description = "SDT-9 structural telemetry + governor for AI/LLM/agent event streams"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "SDT-9 Contributors"}]
+dependencies = []
+
+[project.scripts]
+sdt9-demo = "sdt9_ai.demo:main"

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SDT9GovernorDecision",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "status",
+    "reason",
+    "actions"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "reset",
+        "summarize",
+        "tool",
+        "stop"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "actions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
