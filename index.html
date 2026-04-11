@@ -3,41 +3,119 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SDT-9 Toolkit Demo</title>
+    <title>JARVIS-lite Assistant</title>
     <style>
-      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 16px; }
-      textarea { width: 100%; height: 140px; }
-      pre { background: #f6f6f6; padding: 12px; overflow: auto; }
-      .row { display: flex; gap: 12px; flex-wrap: wrap; }
-      .col { flex: 1 1 320px; }
-      button { padding: 10px 12px; }
-      .hint { color: #555; font-size: 13px; }
-      .kpi { display:flex; gap: 12px; flex-wrap: wrap; margin: 8px 0; }
-      .kpi div { background:#f6f6f6; padding:8px 10px; border-radius:8px; }
+      :root {
+        --bg: #070b14;
+        --panel: #0e1527;
+        --line: #23314f;
+        --txt: #d8e6ff;
+        --muted: #8ea0c8;
+        --accent: #35d4ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+        background: radial-gradient(circle at 25% 20%, #1a2e57 0%, var(--bg) 45%);
+        color: var(--txt);
+        display: grid;
+        place-items: center;
+        padding: 20px;
+      }
+      .app {
+        width: min(920px, 100%);
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, #0f1930, #0b1220);
+        border-radius: 18px;
+        box-shadow: 0 20px 80px #0009;
+        overflow: hidden;
+      }
+      .topbar {
+        padding: 14px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+      }
+      .title { font-weight: 700; letter-spacing: .08em; }
+      .state { color: var(--muted); font-size: 14px; display: flex; align-items: center; gap: 8px; }
+      .dot { width: 10px; height: 10px; border-radius: 100%; background: #66a1ff; box-shadow: 0 0 10px #66a1ff77; }
+      .dot.listening { background: #35d4ff; box-shadow: 0 0 14px #35d4ffcc; }
+      .dot.warning { background: #ffbe55; box-shadow: 0 0 14px #ffbe55aa; }
+      .dot.error { background: #ff5a75; box-shadow: 0 0 14px #ff5a75bb; }
+
+      .transcript {
+        height: 56vh;
+        overflow: auto;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .msg { display: grid; grid-template-columns: 42px 1fr; gap: 10px; align-items: start; }
+      .badge {
+        width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 10px;
+        display: grid; place-items: center; color: var(--accent); font-weight: 700;
+      }
+      .content {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #0a1325;
+        padding: 10px 12px;
+      }
+      .content p { margin: 0; white-space: pre-wrap; line-height: 1.4; }
+      .content time { color: var(--muted); font-size: 12px; }
+      .msg.user .badge { color: #98ffbf; }
+      .msg.user .content { background: #0b1f19; }
+
+      .controls {
+        border-top: 1px solid var(--line);
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+      }
+      .controls .row { display: flex; gap: 8px; }
+      input[type="text"] {
+        flex: 1;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: #060e1d;
+        color: var(--txt);
+        padding: 11px 12px;
+      }
+      button {
+        border: 1px solid var(--line);
+        background: #11264c;
+        color: var(--txt);
+        border-radius: 10px;
+        padding: 0 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover { filter: brightness(1.15); }
+      .toggle { color: var(--muted); font-size: 14px; }
     </style>
   </head>
   <body>
-    <h1>SDT-9 Toolkit Demo</h1>
-    <p class="hint">
-      Paste lines of text (messages / steps / events). We hash each line to a stable positive integer ID, then compute SDT-9 telemetry + governor decisions.
-    </p>
+    <main class="app">
+      <header class="topbar">
+        <div class="title">JARVIS-LITE</div>
+        <div class="state"><span id="stateDot" class="dot idle"></span><span id="stateText">Standing by</span></div>
+      </header>
 
-    <div class="row">
-      <div class="col">
-        <h3>Input (one event per line)</h3>
-        <textarea id="input"></textarea>
-        <div style="margin-top:10px;">
-          <button id="run">Analyze</button>
-          <button id="sample">Load sample</button>
+      <section id="transcript" class="transcript"></section>
+
+      <section class="controls">
+        <div class="row">
+          <input id="commandInput" type="text" placeholder="Type a command: 'time', 'calculate 144/12', 'remember buy milk'" />
+          <button id="sendBtn">Send</button>
+          <button id="micBtn">🎤</button>
         </div>
-      </div>
-      <div class="col">
-        <h3>Output</h3>
-        <div class="kpi" id="kpis"></div>
-        <pre id="out"></pre>
-      </div>
-    </div>
-
+        <label class="toggle"><input id="speakToggle" type="checkbox" checked /> Voice replies</label>
+      </section>
+    </main>
     <script type="module" src="/src/index.ts"></script>
   </body>
 </html>
